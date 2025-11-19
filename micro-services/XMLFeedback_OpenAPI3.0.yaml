@@ -1,0 +1,878 @@
+openapi: 3.0.0
+info:
+  title: EIS XML Feedback Report API
+  description: EIS XML Feedback Report API
+  version: 0.1.9
+servers:
+  - url: https://eisstg.epa.gov/eis-system-web/webService/
+    description: Main (staging) EIS web server
+paths:
+  /xmlFeedback:
+    get:
+      summary: Returns an EIS XML Submission Feedback Report.
+      description: Optional extended description in CommonMark or HTML.
+      parameters:
+        - in: query
+          name: transactionId
+          required: true
+          description: Transaction Id for XML Submission Feed Back Report.
+          schema:
+            type : string
+            minimum: 1
+            maximum: 1
+      responses:
+        '200':    # status code
+          description: An EIS XML Feedback Report was found and will be returned in the response payload in a XML format.
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/SubmissionReport'
+        '500':    # status code
+          description: 'A problem was encountered getting the EIS XML Feedback Report.  Below are the possible Responses that could be returned during a 500 response.<ul>
+              <li>Submitted file has not finished processing,  File is currently processing.</li>
+              <li>QA Submission that has been purged, Feedback report is no longer available.</li>
+              <li>There was a problem processing the XML Submission.  ETL Status = FAILED_VALIDATION</li>
+              <li>CDX transaction ID is invalid.</li>
+            </ul>'
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: 
+                  CDX transaction ID is invalid.
+components:
+  schemas:
+    Message:
+      type: array
+      items: 
+        type: string
+    CheckResult:
+      type: array
+      items: 
+        type: object
+        properties:
+          CheckNumber:
+            type: integer
+          CheckType:
+            type: string
+          CheckErrorLevel:
+            type: string
+          CheckMessage:
+            type: string
+          CheckResolutionMessage:
+            type: string
+          CheckFieldName:
+            type: string
+          CheckFieldValue: 
+            type: string
+          CheckFieldName2:
+            type: string
+            xml:
+              name: CheckFieldName
+          CheckFieldValue2: 
+            type: string
+            xml:
+              name: CheckFieldValue
+          CheckFieldName3:
+            type: string
+            xml:
+              name: CheckFieldName
+          CheckFieldValue3: 
+            type: string
+            xml:
+              name: CheckFieldValue
+          CheckFieldName4:
+            type: string
+            xml:
+              name: CheckFieldName
+          CheckFieldValue4: 
+            type: string
+            xml:
+              name: CheckFieldValue
+          CheckFieldName5:
+            type: string
+            xml:
+              name: CheckFieldName
+          CheckFieldValue5: 
+            type: string
+            xml:
+              name: CheckFieldValue
+          CheckFieldName6:
+            type: string
+            xml:
+              name: CheckFieldName
+          CheckFieldValue6: 
+            type: string
+            xml:
+              name: CheckFieldValue
+          CheckFieldName7:
+            type: string
+            xml:
+              name: CheckFieldName
+          CheckFieldValue7: 
+            type: string
+            xml:
+              name: CheckFieldValue
+          CheckFieldName8:
+            type: string
+            xml:
+              name: CheckFieldName
+          CheckFieldValue8: 
+            type: string
+            xml:
+              name: CheckFieldValue
+          CheckFieldName9:
+            type: string
+            xml:
+              name: CheckFieldName
+          CheckFieldValue9: 
+            type: string
+            xml:
+              name: CheckFieldValue
+          CheckFieldName10:
+            type: string
+            xml:
+              name: CheckFieldName
+          CheckFieldValue10: 
+            type: string
+            xml:
+              name: CheckFieldValue
+    Exception:
+      type: array
+      items: 
+        type: object
+        properties:
+          ExceptionClassName:
+            type: string
+          ExceptionMessage:
+            type: string
+          ExceptionStackTrace:
+            type: string
+    SubmissionReport:
+      type: object
+      properties:
+        FacilitySite:
+          type: array
+          items:
+            type: object
+            properties:
+              Identifier:
+                type: string
+              PoliticalCode:
+                type: string
+              AlternativeFacilityIdentification:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    Identifier:
+                      type: string
+                    CheckResult:
+                      $ref: '#/components/schemas/CheckResult'
+                    Exception:
+                      $ref: '#/components/schemas/Exception'
+                    Message:
+                      $ref: '#/components/schemas/Message'
+              AlternativeFacilityName:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    Identifier:
+                      type: string
+                    CheckResult:
+                      $ref: '#/components/schemas/CheckResult'
+                    Exception:
+                      $ref: '#/components/schemas/Exception'
+                    Message:
+                      $ref: '#/components/schemas/Message'
+              FacilityNaics:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    Identifier:
+                      type: string
+                    CheckResult:
+                      $ref: '#/components/schemas/CheckResult'
+                    Exception:
+                      $ref: '#/components/schemas/Exception'
+                    Message:
+                      $ref: '#/components/schemas/Message'
+              SiteControlPath:
+                type: array
+                items: 
+                  type: object
+                  properties:
+                    Identifier:
+                      type: string
+                    ControlPathIdentification:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          Identifier:
+                            type: string
+                          CheckResult:
+                            $ref: '#/components/schemas/CheckResult'
+                          Exception:
+                            $ref: '#/components/schemas/Exception'
+                          Message:
+                            $ref: '#/components/schemas/Message'
+                    ControlPathDefinition:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          Identifier:
+                            type: string
+                          ControlPathDefinitionControlIdentification:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                Identifier:
+                                  type: string
+                                CheckResult:
+                                  $ref: '#/components/schemas/CheckResult'
+                                Exception:
+                                  $ref: '#/components/schemas/Exception'
+                                Message:
+                                  $ref: '#/components/schemas/Message'
+                          ControlPathDefinitionPathIdentification:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                Identifier:
+                                  type: string
+                                CheckResult:
+                                  $ref: '#/components/schemas/CheckResult'
+                                Exception:
+                                  $ref: '#/components/schemas/Exception'
+                                Message:
+                                  $ref: '#/components/schemas/Message'
+                    ControlPollutant:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          Identifier:
+                            type: string
+                          CheckResult:
+                            $ref: '#/components/schemas/CheckResult'
+                          Exception:
+                            $ref: '#/components/schemas/Exception'
+                          Message:
+                            $ref: '#/components/schemas/Message'
+                    CheckResult:
+                      $ref: '#/components/schemas/CheckResult'
+                    Exception:
+                      $ref: '#/components/schemas/Exception'
+                    Message:
+                      $ref: '#/components/schemas/Message'
+              EmissionsUnit:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    Identifier:
+                      type: string
+                    Regulation:
+                      type: array
+                      items: 
+                        type: object
+                        properties:
+                          Identifier:
+                            type: string
+                          CheckResult:
+                            $ref: '#/components/schemas/CheckResult'
+                          Exception:
+                            $ref: '#/components/schemas/Exception'
+                          Message:
+                            $ref: '#/components/schemas/Message'
+                    EmissionsProcess:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          Identifier:
+                            type: string
+                          AlternativeProcessIdentification:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                Identifier:
+                                  type: string
+                                CheckResult:
+                                  $ref: '#/components/schemas/CheckResult'
+                                Exception:
+                                  $ref: '#/components/schemas/Exception'
+                                Message:
+                                  $ref: '#/components/schemas/Message'
+                          ReleasePointApportionment:
+                            type: array
+                            items: 
+                              type: object
+                              properties:
+                                ReleasePointApportionmentIdentification:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      Identifier:
+                                        type: string
+                                      CheckResult:
+                                        $ref: '#/components/schemas/CheckResult'
+                                      Exception:
+                                        $ref: '#/components/schemas/Exception'
+                                      Message:
+                                        $ref: '#/components/schemas/Message'
+                                ReleasePointApportionmentPathIdentification:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      Identifier:
+                                        type: string
+                                      CheckResult:
+                                        $ref: '#/components/schemas/CheckResult'
+                                      Exception:
+                                        $ref: '#/components/schemas/Exception'
+                                      Message:
+                                        $ref: '#/components/schemas/Message'
+                                CheckResult:
+                                  $ref: '#/components/schemas/CheckResult'
+                                Exception:
+                                  $ref: '#/components/schemas/Exception'
+                                Message:
+                                  $ref: '#/components/schemas/Message'
+                          Regulation:
+                            type: array
+                            items: 
+                              type: object
+                              properties:
+                                Identifier:
+                                  type: string
+                                CheckResult:
+                                  $ref: '#/components/schemas/CheckResult'
+                                Exception:
+                                  $ref: '#/components/schemas/Exception'
+                                Message:
+                                  $ref: '#/components/schemas/Message'
+                          CheckResult:
+                            $ref: '#/components/schemas/CheckResult'
+                          Exception:
+                            $ref: '#/components/schemas/Exception'
+                          Message:
+                            $ref: '#/components/schemas/Message'
+                    AlternativeUnitIdentification:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          Identifier:
+                            type: string
+                          CheckResult:
+                            $ref: '#/components/schemas/CheckResult'
+                          Exception:
+                            $ref: '#/components/schemas/Exception'
+                          Message:
+                            $ref: '#/components/schemas/Message'
+                    DesignCapacity: 
+                      type: array
+                      items: 
+                        type: object
+                        properties:
+                          CheckResult:
+                            $ref: '#/components/schemas/CheckResult'
+                          Exception:
+                            $ref: '#/components/schemas/Exception'
+                          Message:
+                            $ref: '#/components/schemas/Message'
+                    CheckResult:
+                      $ref: '#/components/schemas/CheckResult'
+                    Exception:
+                      $ref: '#/components/schemas/Exception'
+                    Message:
+                      $ref: '#/components/schemas/Message'
+              ReleasePoint:
+                type: array
+                items: 
+                  type: object
+                  properties:
+                    Identifier:
+                      type: string
+                    GeographicCoordinate: 
+                      type: array
+                      items: 
+                        type: object
+                        properties:
+                          CheckResult:
+                            $ref: '#/components/schemas/CheckResult'
+                          Exception:
+                            $ref: '#/components/schemas/Exception'
+                          Message:
+                            $ref: '#/components/schemas/Message'
+                    StackData: 
+                      type: array
+                      items: 
+                        type: object
+                        properties:
+                          CheckResult:
+                            $ref: '#/components/schemas/CheckResult'
+                          Exception:
+                            $ref: '#/components/schemas/Exception'
+                          Message:
+                            $ref: '#/components/schemas/Message'
+                    FugitiveData: 
+                      type: array
+                      items: 
+                        type: object
+                        properties:
+                          CheckResult:
+                            $ref: '#/components/schemas/CheckResult'
+                          Exception:
+                            $ref: '#/components/schemas/Exception'
+                          Message:
+                            $ref: '#/components/schemas/Message'
+                    AlternativeReleasePointIdentification: 
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          Identifier:
+                            type: string
+                          CheckResult:
+                            $ref: '#/components/schemas/CheckResult'
+                          Exception:
+                            $ref: '#/components/schemas/Exception'
+                          Message:
+                            $ref: '#/components/schemas/Message'
+                    CheckResult:
+                      $ref: '#/components/schemas/CheckResult'
+                    Exception:
+                      $ref: '#/components/schemas/Exception'
+                    Message:
+                      $ref: '#/components/schemas/Message'
+              GeographicCoordinate: 
+                type: array
+                items: 
+                  type: object
+                  properties:
+                    CheckResult:
+                      $ref: '#/components/schemas/CheckResult'
+                    Exception:
+                      $ref: '#/components/schemas/Exception'
+                    Message:
+                      $ref: '#/components/schemas/Message'
+              SiteControls:
+                type: array
+                items: 
+                  type: object
+                  properties:
+                    Identifier:
+                      type: string
+                    AlternativeSiteControlsIdentification: 
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          Identifier:
+                            type: string
+                          CheckResult:
+                            $ref: '#/components/schemas/CheckResult'
+                          Exception:
+                            $ref: '#/components/schemas/Exception'
+                          Message:
+                            $ref: '#/components/schemas/Message'
+                    ControlPollutant:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          Identifier:
+                            type: string
+                          CheckResult:
+                            $ref: '#/components/schemas/CheckResult'
+                          Exception:
+                            $ref: '#/components/schemas/Exception'
+                          Message:
+                            $ref: '#/components/schemas/Message'
+                    CheckResult:
+                      $ref: '#/components/schemas/CheckResult'
+                    Exception:
+                      $ref: '#/components/schemas/Exception'
+                    Message:
+                      $ref: '#/components/schemas/Message'
+              CheckResult:
+                $ref: '#/components/schemas/CheckResult'
+              Exception:
+                $ref: '#/components/schemas/Exception'
+              Message:
+                $ref: '#/components/schemas/Message'
+        UserIdentifier:
+          type: string
+        TransmissionIdentifier:
+          type: string
+        DataCategory:
+          type: string
+        SubmissionDate:
+          type: string
+        SubmissionType:
+          type: string
+        SubmissionStatus:
+          type: string
+        TotalCdbsStored:
+          type: string
+        EmissionsYear:
+          type: string
+        Summary:
+          type: object
+          properties:
+            Statistic: 
+              type: array
+              items:
+                type: object
+                properties:
+                  Component:
+                    type: string
+                  UpdateCount:
+                    type: integer
+                  InsertCount:
+                    type: integer
+        Exception:
+          $ref: '#/components/schemas/Exception'
+      xml:
+        namespace: 'http://www.epa.gov/schema/eis/2'
+      example:
+          FacilitySite:
+            - Identifier: NCDAQ-37001-001
+              PoliticalCode: 37001
+              AlternativeFacilityIdentification:
+                - Identifier: 
+                  CheckResult:
+                    - CheckNumber: 10000
+                      CheckType: Present
+                      CheckErrorLevel: Critical
+                      CheckMessage: Missing Program System Code
+                      CheckResolutionMessage: Resubmit with Program System Code
+                      CheckFieldName: Program System Code
+                      CheckFieldValue: 
+                    - CheckNumber: 10001
+                      CheckType: Present
+                      CheckErrorLevel: Critical
+                      CheckMessage: Missing Identifier
+                      CheckResolutionMessage: Resubmit with Identifier
+                      CheckFieldName: Identifier
+                      CheckFieldValue: 
+                  Message: 
+                    - 'Some additional message about the AlternativeFacilityIdentification'
+              AlternativeFacilityName:
+                - CheckResult:
+                    - CheckNumber: 10002
+                      CheckType: Present
+                      CheckErrorLevel: Critical
+                      CheckMessage: Missing Alternate Name
+                      CheckResolutionMessage: Resubmit with Alternate Name
+                      CheckFieldName: Facility Alternative Name
+                      CheckFieldValue: 
+                  Message: 
+                    - 'Some additional message about the AlternativeFacilityName'
+              FacilityNaics:
+                - CheckResult:
+                    - CheckNumber: 10003
+                      CheckType: Present
+                      CheckErrorLevel: Critical
+                      CheckMessage: Missing NAICS Code
+                      CheckResolutionMessage: Resubmit with NAICS Code
+                      CheckFieldName: NAICS Code
+                      CheckFieldValue: 
+                  Message: 
+                    - 'Some additional message about the AlternativeFacilityNaics'
+              SiteControlPath:
+                - Identifier: 37001-SP-001
+                  ControlPathIdentification:
+                    - Identifier: 37001-SP-001-01
+                      CheckResult:
+                        - CheckNumber: 10004
+                          CheckType: Critical
+                          CheckErrorLevel: Error
+                          CheckMessage: Duplicate alternate Identifier
+                          CheckResolutionMessage: Resubmit without duplicate alternative Identifier
+                          CheckFieldName: Site Control Path Alternative identifier
+                          CheckFieldValue: 37001-SP-001-01
+                          CheckFieldName2: Site Control Path Alternative Program System Code
+                          CheckFieldValue2: NCDAQ
+                  ControlPathDefinition:
+                    ControlPathDefinitionControlIdentification:
+                      - Identifier:
+                        CheckResult:
+                          - CheckNumber: 10005
+                            CheckType: Present
+                            CheckErrorLevel: Critical
+                            CheckMessage: Missing alternate site control identifier
+                            CheckResolutionMessage: Resubmit with alternate site control identifier
+                            CheckFieldName: Site Control Alternative Identifier
+                            CheckFieldValue: 
+                            CheckFieldName2: Site Control Alternative Program System Code
+                            CheckFieldValue2: 
+                    ControlPathDefinitionPathIdentification:
+                      - Identifier:
+                        CheckResult:
+                          - CheckNumber: 10006
+                            CheckType: Present
+                            CheckErrorLevel: Critical
+                            CheckMessage: Missing alternate site path identifier
+                            CheckResolutionMessage: Resubmit with alternate site path identifier
+                            CheckFieldName: Site Path Alternative Identifier
+                            CheckFieldValue: 
+                            CheckFieldName2: Site Path Alternative Program System Code
+                            CheckFieldValue2: 
+                  ControlPollutant:
+                    - Identifier: NOXX
+                      CheckResult:
+                        - CheckNumber: 10007
+                          CheckType: Present
+                          CheckErrorLevel: Critical
+                          CheckMessage: Unkonwn pollutant code
+                          CheckResolutionMessage: Resubmit with known pollutant code
+                          CheckFieldName: Site Path Pollutant Code
+                          CheckFieldValue: 
+              EmissionsUnit:
+                - Identifier: 37001-EU-001
+                  Regulation:
+                    CheckResult:
+                      - CheckNumber: 10008
+                        CheckType: Duplicate
+                        CheckErrorLevel: Critical
+                        CheckMessage: Duplicate regulation
+                        CheckResolutionMessage: Resubmit without duplicate regulation
+                        CheckFieldName: Emissions Unit Regulation Code
+                        CheckFieldValue: NCDAQ-102-1
+                  EmissionsProcess:
+                    - Identifier: 37001-EP-001
+                      AlternativeProcessIdentification:
+                        - Identifier: 37001-EP-001-01
+                          CheckResult:
+                            - CheckNumber: 10009
+                              CheckType: Duplicate
+                              CheckErrorLevel: Critical
+                              CheckMessage: Duplicate alternate Identifier
+                              CheckResolutionMessage: Resubmit without duplicate alternate Identifier
+                              CheckFieldName: Emissions Process Alternative Identifier
+                              CheckFieldValue: 37001-EP-001-01
+                      ReleasePointApportionment:
+                        ReleasePointApportionmentIdentification:
+                          - Identifier: 37001-RP-001-02
+                            CheckResult:
+                              - CheckNumber: 10010
+                                CheckType: Present
+                                CheckErrorLevel: Critical
+                                CheckMessage: Unknown Identifier
+                                CheckResolutionMessage: Resubmit with a valid Identifier
+                                CheckFieldName: Release Point Identifier
+                                CheckFieldValue: 37001-RP-001-02
+                        ReleasePointApportionmentPathIdentification:
+                          - Identifier: 37001-SP-001-02
+                            CheckResult:
+                              - CheckNumber: 10011
+                                CheckType: Present
+                                CheckErrorLevel: Critical
+                                CheckMessage: Unknown Identifier
+                                CheckResolutionMessage: Resubmit with a valid Identifier
+                                CheckFieldName: Site Path Identifier
+                                CheckFieldValue: 37001-SP-001-02
+                      Regulation:
+                        CheckResult:
+                          - CheckNumber: 10012
+                            CheckMessage: Duplicate regulation
+                            CheckResolutionMessage: Resubmit without duplicate regulation
+                            CheckFieldName: Emissions Process Regulation Code
+                            CheckFieldValue: NCDAQ-102-2
+                      CheckResult:
+                        - CheckNumber: 10013
+                          CheckType: Present
+                          CheckErrorLevel: Critical
+                          CheckMessage: Missing operating status
+                          CheckResolutionMessage: Resubmit with operating status
+                          CheckFieldName: Emissions Process Operating Status
+                          CheckFieldValue: 
+                  AlternativeUnitIdentification:
+                    - Identifier: 37001-EU-001-03
+                      CheckResult:
+                        - CheckNumber: 10014
+                          CheckType: Duplicate
+                          CheckErrorLevel: Critical
+                          CheckMessage: Duplicate alternate Identifier
+                          CheckResolutionMessage: Resubmit without duplicate alternate Identifier
+                          CheckFieldName: Emissions Unit Alternative Identifier
+                          CheckFieldValue: 37001-EU-001-03
+                  DesignCapacity:
+                    CheckResult:
+                      - CheckNumber: 10015
+                        CheckType: Present
+                        CheckErrorLevel: Critical
+                        CheckMessage: Missing design capacity
+                        CheckResolutionMessage: Resubmit with design capacity
+                        CheckFieldName: Emissions Unit Design Capacity
+                        CheckFieldValue: 
+                  CheckResult:
+                    - CheckNumber: 10016
+                      CheckType: Present
+                      CheckErrorLevel: Critical
+                      CheckMessage: Missing operating status
+                      CheckResolutionMessage: Resubmit with valid operating status
+                      CheckFieldName: Emissions Unit Operating Status
+                      CheckFieldValue: 
+              ReleasePoint:
+                - Identifier: 37001-RP-001
+                  GeographicCoordinate:
+                    CheckResult:
+                      - CheckNumber: 10017
+                        CheckType: Present
+                        CheckErrorLevel: Critical
+                        CheckMessage: Missing latitude
+                        CheckResolutionMessage: Resubmit with latitude
+                        CheckFieldName: Release Point Latitude
+                        CheckFieldValue: 
+                  StackData:
+                    CheckResult:
+                      - CheckNumber: 10018
+                        CheckType: Present
+                        CheckErrorLevel: Critical
+                        CheckMessage: Missing stack height
+                        CheckResolutionMessage: Resubmit with stack height
+                        CheckFieldName: Emissions Unit Stack Height
+                        CheckFieldValue: 
+                  FugitiveData:
+                    CheckResult:
+                      - CheckNumber: 10019
+                        CheckType: Present
+                        CheckErrorLevel: Critical
+                        CheckMessage: Missing fugitive length
+                        CheckResolutionMessage: Resubmit with fugitive length
+                        CheckFieldName: Release Point Fugitive Length
+                        CheckFieldValue: 
+                  AlternativeReleasePointIdentification:
+                    - Identifier: 37001-RP-01-03
+                      CheckResult:
+                        - CheckNumber: 10020
+                          CheckType: Present
+                          CheckErrorLevel: Critical
+                          CheckMessage: Duplicate alternative identifier
+                          CheckResolutionMessage: Resubmit without alternative identifier
+                          CheckFieldName: Release Point Alternative Identifier
+                          CheckFieldValue: 
+                      Message: 
+                       - Some additional message about the AlternativeReleasePointIdentification
+              SiteControls:
+                - Identifier: 37001-SC-001
+                  AlternativeSiteControlsIdentification:
+                    - Identifier: 37001-SC-001-03
+                      CheckResult:
+                        - CheckNumber: 10021
+                          CheckType: Duplicate
+                          CheckErrorLevel: Critical
+                          CheckMessage: Duplicate alternate Identifier
+                          CheckResolutionMessage: Resubmit without duplicate alternate Identifier
+                          CheckFieldName: Site Control Alternative Identifier
+                          CheckFieldValue: 37001-SC-001-03
+                  ControlPollutant:
+                    - Identifier:
+                      CheckResult:
+                        - CheckNumber: 10022
+                          CheckType: Present
+                          CheckErrorLevel: Critical
+                          CheckMessage: Missing pollutant code
+                          CheckResolutionMessage: Resubmit with pollutant code
+                          CheckFieldName: Site Control Pollutant Code
+                          CheckFieldValue: 
+            - Identifier: NCDAQ-37003-001
+              PoliticalCode: 37003
+              Exception:
+                - ExceptionClassName: java.lang.NullPointerException
+                  ExceptionMessage: 
+                  ExceptionStackTrace: 
+          UserIdentifier: first.last@ncdeq.nc.gov
+          TransmissionIdentifier: '_b967eac9-0255-4b5f-948b-9a062e070bd0'
+          DataCategory: FI
+          SubmissionDate: '10/25/2021 02:30:00 PM'
+          SubmissionType: Production
+          SubmissionStatus: Completed
+          TotalCdbsStored: 
+          EmissionsYear: 2020
+          Summary:
+            Statistic: 
+              - Component: FacilitySite
+                UpdateCount: 10
+                InsertCount: 10
+              - Component: FacilityIdentification
+                UpdateCount: 10
+                InsertCount: 10
+              - Component: AlternativeFacilityName
+                UpdateCount: 10
+                InsertCount: 10
+              - Component: FacilitySitePath
+                UpdateCount: 10
+                InsertCount: 10
+              - Component: FacilitySiteControl
+                UpdateCount: 10
+                InsertCount: 10
+              - Component: EmissionUnit
+                UpdateCount: 10
+                InsertCount: 10
+              - Component: UnitEmissionsProcess
+                UpdateCount: 10
+                InsertCount: 10
+              - Component: ReleasePoint
+                UpdateCount: 10
+                InsertCount: 10
+          Exception:
+            - ExceptionClassName: org.springframework.transaction.UnexpectedRollbackException
+              ExceptionMessage: Transaction rolled back because it has been marked as rollback-only
+              ExceptionStackTrace: 'org.springframework.transaction.support.AbstractPlatformTransactionManager.commit(AbstractPlatformTransactionManager.java:724)
+org.springframework.transaction.interceptor.TransactionAspectSupport.commitTransactionAfterReturning(TransactionAspectSupport.java:485)
+org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:291)
+org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:96)
+org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:208)
+com.sun.proxy.$Proxy146.processFacilitySite(Unknown Source)
+gov.epa.eis.etl.XmlSubmissionProcessor.processFacilityInventorySubmission(XmlSubmissionProcessor.java:890)
+gov.epa.eis.etl.XmlSubmissionProcessor.process(XmlSubmissionProcessor.java:317)
+gov.epa.eis.etl.XmlSubmissionProcessor.process(XmlSubmissionProcessor.java:76)
+org.springframework.batch.core.step.item.SimpleChunkProcessor.doProcess(SimpleChunkProcessor.java:126)
+org.springframework.batch.core.step.item.SimpleChunkProcessor.transform(SimpleChunkProcessor.java:303)
+org.springframework.batch.core.step.item.SimpleChunkProcessor.process(SimpleChunkProcessor.java:202)
+org.springframework.batch.core.step.item.ChunkOrientedTasklet.execute(ChunkOrientedTasklet.java:75)
+org.springframework.batch.core.step.tasklet.TaskletStep$ChunkTransactionCallback.doInTransaction(TaskletStep.java:406)
+org.springframework.batch.core.step.tasklet.TaskletStep$ChunkTransactionCallback.doInTransaction(TaskletStep.java:330)
+org.springframework.transaction.support.TransactionTemplate.execute(TransactionTemplate.java:133)
+org.springframework.batch.core.step.tasklet.TaskletStep$2.doInChunkContext(TaskletStep.java:272)
+org.springframework.batch.core.scope.context.StepContextRepeatCallback.doInIteration(StepContextRepeatCallback.java:81)
+org.springframework.batch.repeat.support.RepeatTemplate.getNextResult(RepeatTemplate.java:375)
+org.springframework.batch.repeat.support.RepeatTemplate.executeInternal(RepeatTemplate.java:215)
+org.springframework.batch.repeat.support.RepeatTemplate.iterate(RepeatTemplate.java:145)
+org.springframework.batch.core.step.tasklet.TaskletStep.doExecute(TaskletStep.java:257)
+org.springframework.batch.core.step.AbstractStep.execute(AbstractStep.java:200)
+org.springframework.batch.core.job.SimpleStepHandler.handleStep(SimpleStepHandler.java:148)
+org.springframework.batch.core.job.AbstractJob.handleStep(AbstractJob.java:394)
+org.springframework.batch.core.job.SimpleJob.doExecute(SimpleJob.java:135)
+org.springframework.batch.core.job.AbstractJob.execute(AbstractJob.java:308)
+org.springframework.batch.core.launch.support.SimpleJobLauncher$1.run(SimpleJobLauncher.java:141)
+org.springframework.core.task.SyncTaskExecutor.execute(SyncTaskExecutor.java:50)
+org.springframework.batch.core.launch.support.SimpleJobLauncher.run(SimpleJobLauncher.java:134)
+gov.epa.eis.etl.config.XmlSubmissionConfig.run(XmlSubmissionConfig.java:160)
+sun.reflect.GeneratedMethodAccessor91.invoke(Unknown Source)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:498)
+org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:65)
+org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54)
+java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+java.util.concurrent.FutureTask.runAndReset(FutureTask.java:308)
+java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:180)
+java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:294)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+java.lang.Thread.run(Thread.java:748)'
