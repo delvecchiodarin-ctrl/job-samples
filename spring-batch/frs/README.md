@@ -1,6 +1,6 @@
 # Spring Batch FRS Example
 
-This repository demonstrates a fully functional Spring Batch pipeline for a file-processing system (FRS). The project is modularly designed with separate components for configuration, reading, writing, and web service interaction.
+This repository demonstrates a fully functional Spring Batch pipeline to the FRS. The project is modularly designed with separate components for configuration, reading, writing, and web service interaction.
 
 ## Project Structure
 
